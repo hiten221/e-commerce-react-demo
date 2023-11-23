@@ -98,7 +98,10 @@ app.post('/cart/mock-payment', async (req: Request, res: Response) => {
 });
 
 app.get('/purchase-history', async (req: Request, res: Response) => {
-  const purchaseHistory = await Order.find();
+  const { startDate, endDate } = req?.query;
+  const purchaseHistory = await Order.find({
+    purchaseDate: { $gte: startDate, $lte: endDate }
+  });
   res.json(purchaseHistory);
 });
 
